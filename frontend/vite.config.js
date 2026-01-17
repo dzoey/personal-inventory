@@ -6,10 +6,21 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    host: true, // Allow access from network (for phone access)
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
+      }
+    }
+  },
+  build: {
+    // Generate service worker and manifest in build
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        }
       }
     }
   }
